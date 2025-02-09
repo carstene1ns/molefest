@@ -39,9 +39,9 @@
 //#define __WIN32__
 
 /* If you comment out SOUNDON, you must also comment out MUSICON and USESEAL */
-#define SOUNDON 1
+//#define SOUNDON 1
 /* If you want to use have JGMOD, uncomment the following line */
-#define MUSICON 1
+//#define MUSICON 1
 /* If you want to use SEAL (Win32/DirectX only) uncomment next line */
 //#define USESEAL 1
 
@@ -446,35 +446,34 @@ char tempnum[256];
 
 	for (j=0;j<2;j++) {
 	acquire_bitmap(dbuffer);
-	textout_centre (dbuffer, mydata[TAHOMA].dat, "Magnificent Mole Manoeuvrers", SCRWIDTH/2, 10, 255);
-	textout (dbuffer, mydata[TAHOMA].dat, "Rank        Name         Score  Level Difficulty",
-		SCRWIDTH/2-230, SCRHEIGHT/2-180, 253);
+	textout_centre_ex (dbuffer, mydata[TAHOMA].dat, "Magnificent Mole Manoeuvrers", SCRWIDTH/2, 10, 255, -1);
+	textout_ex (dbuffer, mydata[TAHOMA].dat, "Rank        Name         Score  Level Difficulty",
+		SCRWIDTH/2-230, SCRHEIGHT/2-180, 253, -1);
 	release_bitmap(dbuffer);
 	for (i=0;i<10;i++)
 	{
-		text_mode (-1);
 		sprintf (tempnum, "%d", i+1);
 		acquire_bitmap(dbuffer);
-		textout (dbuffer, mydata[TAHOMA].dat, tempnum, (SCRWIDTH/2)-220, (SCRHEIGHT/2)-140+(i*26), 63-(i*2));
-		textout (dbuffer, mydata[TAHOMA].dat, highscores[i].name,
-			(SCRWIDTH/2)-180, (SCRHEIGHT/2)-140+(i*26), 159-(i*2));
+		textout_ex (dbuffer, mydata[TAHOMA].dat, tempnum, (SCRWIDTH/2)-220, (SCRHEIGHT/2)-140+(i*26), 63-(i*2), -1);
+		textout_ex (dbuffer, mydata[TAHOMA].dat, highscores[i].name,
+			(SCRWIDTH/2)-180, (SCRHEIGHT/2)-140+(i*26), 159-(i*2), -1);
 		release_bitmap(dbuffer);
 		sprintf (tempnum, "%d", highscores[i].hiscore);
 		acquire_bitmap(dbuffer);
-		textout (dbuffer, mydata[TAHOMA].dat, tempnum, (SCRWIDTH/2)+60, (SCRHEIGHT/2)-140+(i*26), 31-(i*2));
+		textout_ex (dbuffer, mydata[TAHOMA].dat, tempnum, (SCRWIDTH/2)+60, (SCRHEIGHT/2)-140+(i*26), 31-(i*2), -1);
 		release_bitmap(dbuffer);
 		sprintf (tempnum, "%d", highscores[i].level);
 		acquire_bitmap(dbuffer);
-		textout (dbuffer, mydata[TAHOMA].dat, tempnum, (SCRWIDTH/2)+140, (SCRHEIGHT/2)-140+(i*26), 95-(i*2));
+		textout_ex (dbuffer, mydata[TAHOMA].dat, tempnum, (SCRWIDTH/2)+140, (SCRHEIGHT/2)-140+(i*26), 95-(i*2), -1);
 		switch (highscores[i].difficulty) {
 			case 0:
-			textout (dbuffer, mydata[TAHOMA].dat, " EASY", (SCRWIDTH/2)+170, (SCRHEIGHT/2)-140+(i*26), 223-(i*2));
+			textout_ex (dbuffer, mydata[TAHOMA].dat, " EASY", (SCRWIDTH/2)+170, (SCRHEIGHT/2)-140+(i*26), 223-(i*2), -1);
 			break;
 			case 1:
-			textout (dbuffer, mydata[TAHOMA].dat, "MEDIUM", (SCRWIDTH/2)+170, (SCRHEIGHT/2)-140+(i*26), 223-(i*2));
+			textout_ex (dbuffer, mydata[TAHOMA].dat, "MEDIUM", (SCRWIDTH/2)+170, (SCRHEIGHT/2)-140+(i*26), 223-(i*2), -1);
 			break;
 			default:
-			textout (dbuffer, mydata[TAHOMA].dat, " HARD", (SCRWIDTH/2)+170, (SCRHEIGHT/2)-140+(i*26), 223-(i*2));
+			textout_ex (dbuffer, mydata[TAHOMA].dat, " HARD", (SCRWIDTH/2)+170, (SCRHEIGHT/2)-140+(i*26), 223-(i*2), -1);
 			break;
 		}
 		release_bitmap(dbuffer);
@@ -484,13 +483,13 @@ char tempnum[256];
 		{
 			sprintf (tempnum, "Your score was %d, better luck next game", score);
 			acquire_bitmap(dbuffer);
-			textout_centre (dbuffer, mydata[TAHOMA].dat, tempnum, SCRWIDTH/2, SCRHEIGHT/2+200, 254);
+			textout_centre_ex (dbuffer, mydata[TAHOMA].dat, tempnum, SCRWIDTH/2, SCRHEIGHT/2+200, 254, -1);
 			release_bitmap(dbuffer);
 		}
 	else if (score && (pos<10)) {
 		acquire_bitmap(dbuffer);
-		textout_centre (dbuffer, mydata[TAHOMA].dat, "Wow, great score, enter your name in the top 10",
-			SCRWIDTH/2, SCRHEIGHT/2+200, 254);
+		textout_centre_ex (dbuffer, mydata[TAHOMA].dat, "Wow, great score, enter your name in the top 10",
+			SCRWIDTH/2, SCRHEIGHT/2+200, 254, -1);
 		rect (dbuffer, SCRWIDTH/2-184, SCRHEIGHT/2-142+(pos*26), 
 			SCRWIDTH/2+50, SCRHEIGHT/2-116+(pos*26), 253);
 		release_bitmap(dbuffer);
@@ -565,31 +564,29 @@ volatile int timedelay;
 			}
 			if (((j>>8) == KEY_BACKSPACE) && (i>0)) { i--;
 			highscores[pos].name[i] = 0;
-			text_mode (0);
 			acquire_bitmap(display1);
 			rectfill (display1, SCRWIDTH/2-183, SCRHEIGHT/2-141+(pos*26), 
 				SCRWIDTH/2+49, SCRHEIGHT/2-117+(pos*26), 0);
-			textout (display1, mydata[TAHOMA].dat, highscores[pos].name,
-				(SCRWIDTH/2)-180, (SCRHEIGHT/2)-140+(pos*26), 255);
+			textout_ex (display1, mydata[TAHOMA].dat, highscores[pos].name,
+				(SCRWIDTH/2)-180, (SCRHEIGHT/2)-140+(pos*26), 255, 0);
 			release_bitmap(display1);
 			acquire_bitmap(display2);
 			rectfill (display2, SCRWIDTH/2-183, SCRHEIGHT/2-141+(pos*26), 
 				SCRWIDTH/2+49, SCRHEIGHT/2-117+(pos*26), 0);
-			textout (display2, mydata[TAHOMA].dat, highscores[pos].name,
-				(SCRWIDTH/2)-180, (SCRHEIGHT/2)-140+(pos*26), 255);
+			textout_ex (display2, mydata[TAHOMA].dat, highscores[pos].name,
+				(SCRWIDTH/2)-180, (SCRHEIGHT/2)-140+(pos*26), 255, 0);
 			release_bitmap(display2);
 			}
 			if (((j>>8)==KEY_SPACE) || ((j&0xFF)>=' ')) {
 			highscores[pos].name[i] = j; i++;
 			highscores[pos].name[i] = 0;
-			text_mode (0);
 			acquire_bitmap(display1);
-			textout (display1, mydata[TAHOMA].dat, highscores[pos].name,
-				(SCRWIDTH/2)-180, (SCRHEIGHT/2)-140+(pos*26), 255);
+			textout_ex (display1, mydata[TAHOMA].dat, highscores[pos].name,
+				(SCRWIDTH/2)-180, (SCRHEIGHT/2)-140+(pos*26), 255, 0);
 			release_bitmap(display1);
 			acquire_bitmap(display2);
-			textout (display2, mydata[TAHOMA].dat, highscores[pos].name,
-				(SCRWIDTH/2)-180, (SCRHEIGHT/2)-140+(pos*26), 255);
+			textout_ex (display2, mydata[TAHOMA].dat, highscores[pos].name,
+				(SCRWIDTH/2)-180, (SCRHEIGHT/2)-140+(pos*26), 255, 0);
 			release_bitmap(display2);
 			}
 			while (key[KEY_ENTER]); while (key[KEY_SPACE]);
@@ -674,7 +671,7 @@ LETTER letter[8];
 OPTPANEL panel[4];
 int framecounter;
 
-	if (mydata==NULL) mydata = load_datafile ("moledata.dat");
+	if (mydata==NULL) mydata = load_datafile ("data/moledata.dat");
 	if (mydata==NULL) return -1;
 
 	mystars = InitStars ();
@@ -702,7 +699,7 @@ int framecounter;
 
 #ifdef MUSICON
 	if (myxm==NULL && modvol) {
-		myxm = load_mod ("k_pbox.xm");
+		myxm = load_mod ("data/k_pbox.xm");
 		if (myxm!=NULL) play_mod (myxm, TRUE); 
 		set_mod_volume (modvol);
 	}
@@ -859,24 +856,16 @@ int framecounter;
 		}
 		acquire_bitmap(dbuffer);
 		if (framecounter>200) {
-			textout (dbuffer, mydata[TAHOMA].dat, "By", SCRWIDTH-180, 110, 192);
-			textout (dbuffer, mydata[TAHOMA].dat, "Robin Burrows", SCRWIDTH-150, 110, 193); }
+			textout_ex (dbuffer, mydata[TAHOMA].dat, "By", SCRWIDTH-180, 110, 192, -1);
+			textout_ex (dbuffer, mydata[TAHOMA].dat, "Robin Burrows", SCRWIDTH-150, 110, 193, -1); }
 		if (framecounter>220)
-			textout (dbuffer, font, "Written with DJGPP", SCRWIDTH/2-(24*8), SCRHEIGHT-20, 90);
+			textout_ex (dbuffer, font, "Written with DJGPP", SCRWIDTH/2-(24*8), SCRHEIGHT-20, 90, -1);
 		if (framecounter>240)
-			textout (dbuffer, font, "http://www.delorie.com/djgpp/", SCRWIDTH/2-(24*8)+(21*8), SCRHEIGHT-20, 156);
+			textout_ex (dbuffer, font, "http://www.delorie.com/djgpp/", SCRWIDTH/2-(24*8)+(21*8), SCRHEIGHT-20, 156, -1);
 		if (framecounter>260)
-#ifndef __WIN32__
-			textout (dbuffer, font, "and Allegro 4.0.0", SCRWIDTH/2-(27*8), SCRHEIGHT-10, 90);
-#else
-			textout (dbuffer, font, "and Allegro 4.0.0", SCRWIDTH/2-(27*8), SCRHEIGHT-10, 90);
-#endif
+			textout_ex (dbuffer, font, "and Allegro 4.4", SCRWIDTH/2-(27*8), SCRHEIGHT-10, 90, -1);
 		if (framecounter>280)
-#ifndef __WIN32__
-			textout (dbuffer, font, "http://alleg.sourceforge.net", SCRWIDTH/2-(27*8)+(20*8), SCRHEIGHT-10, 156);
-#else
-			textout (dbuffer, font, "http://alleg.sourceforge.net", SCRWIDTH/2-(27*8)+(20*8), SCRHEIGHT-10, 156);
-#endif
+			textout_ex (dbuffer, font, "http://alleg.sourceforge.net", SCRWIDTH/2-(27*8)+(20*8), SCRHEIGHT-10, 156, -1);
 		release_bitmap(dbuffer);
 #ifdef __WIN32__
 		if (redraw) {
@@ -1002,34 +991,25 @@ int keyt[5];
 		if (option==4) for (i=0;i<33;i++) hline (dbuffer, SCRWIDTH/2-100, SCRHEIGHT/2+84+i, SCRWIDTH/2+99, 143+(i/2));
 		else for (i=0;i<33;i++) hline (dbuffer, SCRWIDTH/2-100, SCRHEIGHT/2+84+i, SCRWIDTH/2+99, 175+(i/2));
 
-		text_mode (-1);
 		glowcount++; if (glownumbers[glowcount]==-1) glowcount = 0;
-		textout (dbuffer, mydata[TAHOMA].dat, "Start game", SCRWIDTH/2-46, SCRHEIGHT/2-50, 0);
-		textout (dbuffer, mydata[TAHOMA].dat, "Options", SCRWIDTH/2-32, SCRHEIGHT/2-10, 0);
-		textout (dbuffer, mydata[TAHOMA].dat, "High scores", SCRWIDTH/2-46, SCRHEIGHT/2+30, 0);
-		textout (dbuffer, mydata[TAHOMA].dat, "Exit", SCRWIDTH/2-12, SCRHEIGHT/2+90, 0);
-		if (option==1) textout (dbuffer, mydata[TAHOMA].dat, "Start game", SCRWIDTH/2-48, SCRHEIGHT/2-52, 84+glownumbers[glowcount]);
-		else textout (dbuffer, mydata[TAHOMA].dat, "Start game", SCRWIDTH/2-48, SCRHEIGHT/2-52, 82);
-		if (option==2) textout (dbuffer, mydata[TAHOMA].dat, "Options", SCRWIDTH/2-34, SCRHEIGHT/2-12, 84+glownumbers[glowcount]);
-		else textout (dbuffer, mydata[TAHOMA].dat, "Options", SCRWIDTH/2-34, SCRHEIGHT/2-12, 82);
-		if (option==3) textout (dbuffer, mydata[TAHOMA].dat, "High scores", SCRWIDTH/2-48, SCRHEIGHT/2+28, 84+glownumbers[glowcount]);
-		else textout (dbuffer, mydata[TAHOMA].dat, "High scores", SCRWIDTH/2-48, SCRHEIGHT/2+28, 82);
-		if (option==4) textout (dbuffer, mydata[TAHOMA].dat, "Exit", SCRWIDTH/2-14, SCRHEIGHT/2+88, 84+glownumbers[glowcount]);
-		else textout (dbuffer, mydata[TAHOMA].dat, "Exit", SCRWIDTH/2-14, SCRHEIGHT/2+88, 82);
-		textout (dbuffer, mydata[TAHOMA].dat, "By", SCRWIDTH-180, 110, 192);
-		textout (dbuffer, mydata[TAHOMA].dat, "Robin Burrows", SCRWIDTH-150, 110, 193);
-		textout (dbuffer, font, "Written with DJGPP", SCRWIDTH/2-(24*8), SCRHEIGHT-20, 90);
-		textout (dbuffer, font, "http://www.delorie.com/djgpp/", SCRWIDTH/2-(24*8)+(21*8), SCRHEIGHT-20, 156);
-#ifndef __WIN32__
-		textout (dbuffer, font, "and Allegro 4.0.0", SCRWIDTH/2-(27*8), SCRHEIGHT-10, 90);
-#else
-		textout (dbuffer, font, "and Allegro 4.0.0", SCRWIDTH/2-(27*8), SCRHEIGHT-10, 90);
-#endif
-#ifndef __WIN32__
-		textout (dbuffer, font, "http://alleg.sourceforge.net", SCRWIDTH/2-(27*8)+(20*8), SCRHEIGHT-10, 156);
-#else
-		textout (dbuffer, font, "http://alleg.sourceforge.net", SCRWIDTH/2-(27*8)+(20*8), SCRHEIGHT-10, 156);
-#endif
+		textout_ex (dbuffer, mydata[TAHOMA].dat, "Start game", SCRWIDTH/2-46, SCRHEIGHT/2-50, 0, -1);
+		textout_ex (dbuffer, mydata[TAHOMA].dat, "Options", SCRWIDTH/2-32, SCRHEIGHT/2-10, 0, -1);
+		textout_ex (dbuffer, mydata[TAHOMA].dat, "High scores", SCRWIDTH/2-46, SCRHEIGHT/2+30, 0, -1);
+		textout_ex (dbuffer, mydata[TAHOMA].dat, "Exit", SCRWIDTH/2-12, SCRHEIGHT/2+90, 0, -1);
+		if (option==1) textout_ex (dbuffer, mydata[TAHOMA].dat, "Start game", SCRWIDTH/2-48, SCRHEIGHT/2-52, 84+glownumbers[glowcount], -1);
+		else textout_ex (dbuffer, mydata[TAHOMA].dat, "Start game", SCRWIDTH/2-48, SCRHEIGHT/2-52, 82, -1);
+		if (option==2) textout_ex (dbuffer, mydata[TAHOMA].dat, "Options", SCRWIDTH/2-34, SCRHEIGHT/2-12, 84+glownumbers[glowcount], -1);
+		else textout_ex (dbuffer, mydata[TAHOMA].dat, "Options", SCRWIDTH/2-34, SCRHEIGHT/2-12, 82, -1);
+		if (option==3) textout_ex (dbuffer, mydata[TAHOMA].dat, "High scores", SCRWIDTH/2-48, SCRHEIGHT/2+28, 84+glownumbers[glowcount], -1);
+		else textout_ex (dbuffer, mydata[TAHOMA].dat, "High scores", SCRWIDTH/2-48, SCRHEIGHT/2+28, 82, -1);
+		if (option==4) textout_ex (dbuffer, mydata[TAHOMA].dat, "Exit", SCRWIDTH/2-14, SCRHEIGHT/2+88, 84+glownumbers[glowcount], -1);
+		else textout_ex (dbuffer, mydata[TAHOMA].dat, "Exit", SCRWIDTH/2-14, SCRHEIGHT/2+88, 82, -1);
+		textout_ex (dbuffer, mydata[TAHOMA].dat, "By", SCRWIDTH-180, 110, 192, -1);
+		textout_ex (dbuffer, mydata[TAHOMA].dat, "Robin Burrows", SCRWIDTH-150, 110, 193, -1);
+		textout_ex (dbuffer, font, "Written with DJGPP", SCRWIDTH/2-(24*8), SCRHEIGHT-20, 90, -1);
+		textout_ex (dbuffer, font, "http://www.delorie.com/djgpp/", SCRWIDTH/2-(24*8)+(21*8), SCRHEIGHT-20, 156, -1);
+		textout_ex (dbuffer, font, "and Allegro 4.4", SCRWIDTH/2-(27*8), SCRHEIGHT-10, 90, -1);
+		textout_ex (dbuffer, font, "http://alleg.sourceforge.net", SCRWIDTH/2-(27*8)+(20*8), SCRHEIGHT-10, 156, -1);
 		draw_rle_sprite (dbuffer, mydata[MENUMOUSE].dat, mymousex, mymousey);
 		release_bitmap(dbuffer);
 #ifdef __WIN32__
@@ -1087,7 +1067,7 @@ int keyt[7];
 
 #ifdef MUSICON
 	if (myxm==NULL) {
-		myxm = load_mod ("lurid.xm");
+		myxm = load_mod ("data/lurid.xm");
 		if (myxm!=NULL) play_mod (myxm, TRUE); 
 		set_mod_volume (modvol);
 	}
@@ -1356,28 +1336,27 @@ int keyt[7];
 		if (option==5) for (i=0;i<33;i++) hline (dbuffer, SCRWIDTH/2-100, SCRHEIGHT/2+104+i, SCRWIDTH/2+99, 143+(i/2));
 		else for (i=0;i<33;i++) hline (dbuffer, SCRWIDTH/2-100, SCRHEIGHT/2+104+i, SCRWIDTH/2+99, 175+(i/2));
 
-		text_mode (-1);
 		glowcount++; if (glownumbers[glowcount]==-1) glowcount = 0;
-		textout (dbuffer, mydata[TAHOMA].dat, "Mouse Speed", SCRWIDTH/2-90, SCRHEIGHT/2-110, 0);
-		textout (dbuffer, mydata[TAHOMA].dat, "Brightness", SCRWIDTH/2-90, SCRHEIGHT/2-70, 0);
-		textout (dbuffer, mydata[TAHOMA].dat, "Effects Vol", SCRWIDTH/2-90, SCRHEIGHT/2-30, 0);
-		textout (dbuffer, mydata[TAHOMA].dat, "Music Vol", SCRWIDTH/2-90, SCRHEIGHT/2+10, 0);
-		textout (dbuffer, mydata[TAHOMA].dat, "Difficulty", SCRWIDTH/2-90, SCRHEIGHT/2+50, 0);
-		textout (dbuffer, mydata[TAHOMA].dat, "Exit", SCRWIDTH/2-12, SCRHEIGHT/2+110, 0);
-		if (option==6) textout (dbuffer, mydata[TAHOMA].dat, "Mouse Speed", SCRWIDTH/2-92, SCRHEIGHT/2-112, 84+glownumbers[glowcount]);
-		else textout (dbuffer, mydata[TAHOMA].dat, "Mouse Speed", SCRWIDTH/2-92, SCRHEIGHT/2-112, 82);
-		if (option==1) textout (dbuffer, mydata[TAHOMA].dat, "Brightness", SCRWIDTH/2-92, SCRHEIGHT/2-72, 84+glownumbers[glowcount]);
-		else textout (dbuffer, mydata[TAHOMA].dat, "Brightness", SCRWIDTH/2-92, SCRHEIGHT/2-72, 82);
-		if (option==2) textout (dbuffer, mydata[TAHOMA].dat, "Effects Vol", SCRWIDTH/2-92, SCRHEIGHT/2-32, 84+glownumbers[glowcount]);
-		else textout (dbuffer, mydata[TAHOMA].dat, "Effects Vol", SCRWIDTH/2-92, SCRHEIGHT/2-32, 82);
-		if (option==3) textout (dbuffer, mydata[TAHOMA].dat, "Music Vol", SCRWIDTH/2-92, SCRHEIGHT/2+8, 84+glownumbers[glowcount]);
-		else textout (dbuffer, mydata[TAHOMA].dat, "Music Vol", SCRWIDTH/2-92, SCRHEIGHT/2+8, 82);
-		if (option==4) textout (dbuffer, mydata[TAHOMA].dat, "Difficulty", SCRWIDTH/2-92, SCRHEIGHT/2+48, 84+glownumbers[glowcount]);
-		else textout (dbuffer, mydata[TAHOMA].dat, "Difficulty", SCRWIDTH/2-92, SCRHEIGHT/2+48, 82);
-		if (option==5) textout (dbuffer, mydata[TAHOMA].dat, "Exit", SCRWIDTH/2-14, SCRHEIGHT/2+108, 84+glownumbers[glowcount]);
-		else textout (dbuffer, mydata[TAHOMA].dat, "Exit", SCRWIDTH/2-14, SCRHEIGHT/2+108, 82);
-		if (fliptype == 0) textout (dbuffer, mydata[TAHOMA].dat, "pageflip mode (default)", SCRWIDTH/2-92, SCRHEIGHT/2+148, 82);
-		if (fliptype == 3) textout (dbuffer, mydata[TAHOMA].dat, "double buffer (safe)", SCRWIDTH/2-92, SCRHEIGHT/2+148, 82);
+		textout_ex (dbuffer, mydata[TAHOMA].dat, "Mouse Speed", SCRWIDTH/2-90, SCRHEIGHT/2-110, 0, -1);
+		textout_ex (dbuffer, mydata[TAHOMA].dat, "Brightness", SCRWIDTH/2-90, SCRHEIGHT/2-70, 0, -1);
+		textout_ex (dbuffer, mydata[TAHOMA].dat, "Effects Vol", SCRWIDTH/2-90, SCRHEIGHT/2-30, 0, -1);
+		textout_ex (dbuffer, mydata[TAHOMA].dat, "Music Vol", SCRWIDTH/2-90, SCRHEIGHT/2+10, 0, -1);
+		textout_ex (dbuffer, mydata[TAHOMA].dat, "Difficulty", SCRWIDTH/2-90, SCRHEIGHT/2+50, 0, -1);
+		textout_ex (dbuffer, mydata[TAHOMA].dat, "Exit", SCRWIDTH/2-12, SCRHEIGHT/2+110, 0, -1);
+		if (option==6) textout_ex (dbuffer, mydata[TAHOMA].dat, "Mouse Speed", SCRWIDTH/2-92, SCRHEIGHT/2-112, 84+glownumbers[glowcount], -1);
+		else textout_ex (dbuffer, mydata[TAHOMA].dat, "Mouse Speed", SCRWIDTH/2-92, SCRHEIGHT/2-112, 82, -1);
+		if (option==1) textout_ex (dbuffer, mydata[TAHOMA].dat, "Brightness", SCRWIDTH/2-92, SCRHEIGHT/2-72, 84+glownumbers[glowcount], -1);
+		else textout_ex (dbuffer, mydata[TAHOMA].dat, "Brightness", SCRWIDTH/2-92, SCRHEIGHT/2-72, 82, -1);
+		if (option==2) textout_ex (dbuffer, mydata[TAHOMA].dat, "Effects Vol", SCRWIDTH/2-92, SCRHEIGHT/2-32, 84+glownumbers[glowcount], -1);
+		else textout_ex (dbuffer, mydata[TAHOMA].dat, "Effects Vol", SCRWIDTH/2-92, SCRHEIGHT/2-32, 82, -1);
+		if (option==3) textout_ex (dbuffer, mydata[TAHOMA].dat, "Music Vol", SCRWIDTH/2-92, SCRHEIGHT/2+8, 84+glownumbers[glowcount], -1);
+		else textout_ex (dbuffer, mydata[TAHOMA].dat, "Music Vol", SCRWIDTH/2-92, SCRHEIGHT/2+8, 82, -1);
+		if (option==4) textout_ex (dbuffer, mydata[TAHOMA].dat, "Difficulty", SCRWIDTH/2-92, SCRHEIGHT/2+48, 84+glownumbers[glowcount], -1);
+		else textout_ex (dbuffer, mydata[TAHOMA].dat, "Difficulty", SCRWIDTH/2-92, SCRHEIGHT/2+48, 82, -1);
+		if (option==5) textout_ex (dbuffer, mydata[TAHOMA].dat, "Exit", SCRWIDTH/2-14, SCRHEIGHT/2+108, 84+glownumbers[glowcount], -1);
+		else textout_ex (dbuffer, mydata[TAHOMA].dat, "Exit", SCRWIDTH/2-14, SCRHEIGHT/2+108, 82, -1);
+		if (fliptype == 0) textout_ex (dbuffer, mydata[TAHOMA].dat, "pageflip mode (default)", SCRWIDTH/2-92, SCRHEIGHT/2+148, 82, -1);
+		if (fliptype == 3) textout_ex (dbuffer, mydata[TAHOMA].dat, "double buffer (safe)", SCRWIDTH/2-92, SCRHEIGHT/2+148, 82, -1);
 
 		for (i=0;i<msespd;i++) rectfill (dbuffer, SCRWIDTH/2+(i*10)+42, SCRHEIGHT/2-110,
 			SCRWIDTH/2+(i*10)+49, SCRHEIGHT/2-90, 192);
@@ -1389,14 +1368,14 @@ int keyt[7];
 			SCRWIDTH/2+(i*10)+19, SCRHEIGHT/2+30, 192);
 
 		if (difficulty == 0) {
-			textout (dbuffer, mydata[TAHOMA].dat, "easy", SCRWIDTH/2+14, SCRHEIGHT/2+50, 0);
-			textout (dbuffer, mydata[TAHOMA].dat, "easy", SCRWIDTH/2+12, SCRHEIGHT/2+48, 192);
+			textout_ex (dbuffer, mydata[TAHOMA].dat, "easy", SCRWIDTH/2+14, SCRHEIGHT/2+50, 0, -1);
+			textout_ex (dbuffer, mydata[TAHOMA].dat, "easy", SCRWIDTH/2+12, SCRHEIGHT/2+48, 192, -1);
 		} else if (difficulty == 1) {
-			textout (dbuffer, mydata[TAHOMA].dat, "medium", SCRWIDTH/2+14, SCRHEIGHT/2+50, 0);
-			textout (dbuffer, mydata[TAHOMA].dat, "medium", SCRWIDTH/2+12, SCRHEIGHT/2+48, 192);
+			textout_ex (dbuffer, mydata[TAHOMA].dat, "medium", SCRWIDTH/2+14, SCRHEIGHT/2+50, 0, -1);
+			textout_ex (dbuffer, mydata[TAHOMA].dat, "medium", SCRWIDTH/2+12, SCRHEIGHT/2+48, 192, -1);
 		} else {
-			textout (dbuffer, mydata[TAHOMA].dat, "hard", SCRWIDTH/2+14, SCRHEIGHT/2+50, 0);
-			textout (dbuffer, mydata[TAHOMA].dat, "hard", SCRWIDTH/2+12, SCRHEIGHT/2+48, 192);
+			textout_ex (dbuffer, mydata[TAHOMA].dat, "hard", SCRWIDTH/2+14, SCRHEIGHT/2+50, 0, -1);
+			textout_ex (dbuffer, mydata[TAHOMA].dat, "hard", SCRWIDTH/2+12, SCRHEIGHT/2+48, 192, -1);
 		}
 
 		draw_rle_sprite (dbuffer, mydata[MENUMOUSE].dat, mymousex, mymousey);
@@ -1656,7 +1635,7 @@ int i, j;
 void DrawTopMessage (BITMAP * dest)
 {
 	rectfill (dest, SCRWIDTH/2-100, 0, SCRWIDTH/2+99, 18, 0);
-	textout_centre (dest, mydata[TAHOMA].dat, topmessage, SCRWIDTH/2, 0, makecol (255, 255, 255));
+	textout_centre_ex (dest, mydata[TAHOMA].dat, topmessage, SCRWIDTH/2, 0, makecol (255, 255, 255), -1);
 }
 
 /* Why am I commenting these? */
@@ -1666,8 +1645,7 @@ char scoretext[10];
 
 	rectfill (dest, SCRWIDTH-122, SCRHEIGHT-25, SCRWIDTH-69, SCRHEIGHT-11, makecol (41, 4, 4));
 	sprintf (scoretext, "%6d", score);
-	text_mode (-1);
-	textout (dest, font, scoretext, SCRWIDTH-118, SCRHEIGHT-21, makecol (255, 255, 255));
+	textout_ex (dest, font, scoretext, SCRWIDTH-118, SCRHEIGHT-21, makecol (255, 255, 255), -1);
 }
 
 void DrawNextPanel (BITMAP * dest)
@@ -1679,7 +1657,7 @@ char togotext[30];
 	blit (mydata[PANEL1].dat, dest, 0, 0, 0, 0, 128, 48);
 	i = blockstogo; if (i<0) i = 0;
 	sprintf (togotext, "Left: %d", i);
-	textout (dest, font, togotext, 8, 37, makecol (255, 255, 255));
+	textout_ex (dest, font, togotext, 8, 37, makecol (255, 255, 255), -1);
 	tempbm = create_bitmap (32, 32);
 	if (tempbm==NULL) return;
 
@@ -2088,36 +2066,36 @@ void CalcMolePos (void)
 			if (moleangle>=0 && moleangle<64)
 			{
 				moley += 32;
-				molex += 32 -fixtoi ((32*fcos(itofix(moleangle))));
-				moley -= fixtoi ((32*fsin(itofix(moleangle))));
+				molex += 32 -fixtoi ((32*fixcos(itofix(moleangle))));
+				moley -= fixtoi ((32*fixsin(itofix(moleangle))));
 			} else {
 				molex += 64; moley += 32;
-				molex -= 32 -fixtoi ((32*fcos(itofix(moleangle))));
-				moley += fixtoi ((32*fsin(itofix(moleangle))));
+				molex -= 32 -fixtoi ((32*fixcos(itofix(moleangle))));
+				moley += fixtoi ((32*fixsin(itofix(moleangle))));
 			}
 			break;
 		case 5:
 			if (moleangle>=64 && moleangle<128)
 			{
 				molex -= 64; moley += 32;
-				molex += 32 -fixtoi ((32*fcos(itofix(moleangle))));
-				moley -= fixtoi ((32*fsin(itofix(moleangle))));
+				molex += 32 -fixtoi ((32*fixcos(itofix(moleangle))));
+				moley -= fixtoi ((32*fixsin(itofix(moleangle))));
 			} else {
 				moley += 32;
-				molex -= 32 -fixtoi ((32*fcos(itofix(moleangle))));
-				moley += fixtoi ((32*fsin(itofix(moleangle))));
+				molex -= 32 -fixtoi ((32*fixcos(itofix(moleangle))));
+				moley += fixtoi ((32*fixsin(itofix(moleangle))));
 			}
 			break;
 		case 6:
 			if (moleangle>=128 && moleangle<192)
 			{
 				moley -= 32; molex -= 64;
-				molex += 32 -fixtoi ((32*fcos(itofix(moleangle))));
-				moley -= fixtoi ((32*fsin(itofix(moleangle))));
+				molex += 32 -fixtoi ((32*fixcos(itofix(moleangle))));
+				moley -= fixtoi ((32*fixsin(itofix(moleangle))));
 			} else {
 				moley -= 32;
-				molex -= 32 -fixtoi ((32*fcos(itofix(moleangle))));
-				moley += fixtoi ((32*fsin(itofix(moleangle))));
+				molex -= 32 -fixtoi ((32*fixcos(itofix(moleangle))));
+				moley += fixtoi ((32*fixsin(itofix(moleangle))));
 			}
 			break;
 		case 7:
@@ -2125,12 +2103,12 @@ void CalcMolePos (void)
 			if (moleangle>=192 && moleangle<256)
 			{
 				moley -= 32;
-				molex += 32 -fixtoi ((32*fcos(itofix(moleangle))));
-				moley -= fixtoi ((32*fsin(itofix(moleangle))));
+				molex += 32 -fixtoi ((32*fixcos(itofix(moleangle))));
+				moley -= fixtoi ((32*fixsin(itofix(moleangle))));
 			} else {
 				molex += 64; moley -= 32;
-				molex -= 32 -fixtoi ((32*fcos(itofix(moleangle))));
-				moley += fixtoi ((32*fsin(itofix(moleangle))));
+				molex -= 32 -fixtoi ((32*fixcos(itofix(moleangle))));
+				moley += fixtoi ((32*fixsin(itofix(moleangle))));
 			}
 			break;
 	}
@@ -2289,11 +2267,10 @@ int i, j;
 		if ((thegrid[j][i]&0x70) && !(thegrid[j][i]&0x80))
 		{
 			score -= 200;
-			text_mode (-1);
-			textout_centre (dest, mydata[TAHOMA].dat,
-				"-200", i*64+GXOFF+32, j*64+GYOFF+22, makecol (10, 10, 10));
-			textout_centre (dest, mydata[TAHOMA].dat,
-				"-200", i*64+GXOFF+30, j*64+GYOFF+20, makecol (255, 255, 255));
+			textout_centre_ex (dest, mydata[TAHOMA].dat,
+				"-200", i*64+GXOFF+32, j*64+GYOFF+22, makecol (10, 10, 10), -1);
+			textout_centre_ex (dest, mydata[TAHOMA].dat,
+				"-200", i*64+GXOFF+30, j*64+GYOFF+20, makecol (255, 255, 255), -1);
 		}
 #ifdef SOUNDON
 	if (sfxvol)
@@ -2365,7 +2342,7 @@ BITMAP *mouset1, *mouset2, *tempmt, *molet1, *molet2;
 
 #ifdef MUSICON
 	if (myxm==NULL && modvol) {
-		myxm = load_mod ("lurid.xm");
+		myxm = load_mod ("data/lurid.xm");
 		if (myxm!=NULL) play_mod (myxm, TRUE); 
 		set_mod_volume (modvol);
 	}
@@ -2624,7 +2601,7 @@ int choice;
 	if (fliptype == 4) { choice = GFX_AUTODETECT_WINDOWED; fliptype = 0; }
 	else { choice = GFX_AUTODETECT; }
 #ifndef __WIN32__
-	if (set_gfx_mode (GFX_AUTODETECT, SCRWIDTH, SCRHEIGHT, 0, SCRHEIGHT*2)<0)
+	if (set_gfx_mode (GFX_AUTODETECT_WINDOWED, SCRWIDTH, SCRHEIGHT, 0, SCRHEIGHT*2)<0)
 		{ allegro_exit (); printf ("Couldn't open %d*%d*%d screen\n",
 			SCRWIDTH, SCRHEIGHT, SCRDEPTH); return -1; }
 #else

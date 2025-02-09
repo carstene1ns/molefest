@@ -133,8 +133,7 @@ int i;
 	}
 	lastsample = MIDASplaySample(samples[i], MIDAS_CHANNEL_AUTO, 0, frq, vol/4+1, MIDAS_PAN_MIDDLE);
 	return;
-#endif
-#ifdef USEALLEGSND
-	play_sample (mydata[sndnum].dat, vol, 127, frq, 0);
+#else
+	play_sample (smpl, vol, 127, frq, 0);
 #endif
 }
