@@ -308,7 +308,7 @@ JGMOD *load_s3m (char *filename, int start_offset)
     dp = jgmod_getc(f);
 
     jgmod_skip (f, 10);
-    jgmod_fread (chn_set, 32, f);
+    jgmod_fread ((char *)chn_set, 32, f);
 
     if (j->tempo == 0)
         j->tempo = 6;

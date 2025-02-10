@@ -519,7 +519,7 @@ void destroy_mod (JGMOD *j)
 
     for (index=0; index < j->no_sample; index++)
         {
-        if (j->s + index)
+        //if (j->s + index)
             {
             if (j->s[index].data)
                 {

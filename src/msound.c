@@ -115,7 +115,9 @@ void SEALStopMusic (void)
 
 void SEALPlaySnd (SAMPLE * smpl, int vol, int pan, int frq, int loop)
 {
+#ifdef USESEAL
 int i;
+#endif
 
 	if (vol == 0 ) return;
 #ifdef USESEAL

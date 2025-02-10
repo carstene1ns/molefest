@@ -302,13 +302,16 @@ float amount;
 	for (i = 0; i < 256; i++)
 	{
 		j = (int) (((float) srcplt[i].r) * amount);
-		if (j<0) j = 0; if (j>63) j = 63;
+		if (j<0) j = 0;
+		if (j>63) j = 63;
 		gamma_pal[i].r = j;
 		j = (int) (((float) srcplt[i].g) * amount);
-		if (j<0) j = 0; if (j>63) j = 63;
+		if (j<0) j = 0;
+		if (j>63) j = 63;
 		gamma_pal[i].g = j;
 		j = (int) (((float) srcplt[i].b) * amount);
-		if (j<0) j = 0; if (j>63) j = 63;
+		if (j<0) j = 0;
+		if (j>63) j = 63;
 		gamma_pal[i].b = j;
 	}
 
@@ -509,9 +512,10 @@ char tempnum[256];
 void GoHighScore (void)
 {
 int i, j, pos;
-volatile int timedelay;
 
-	while (key[KEY_ESC]); clear_keybuf();
+	while (key[KEY_ESC]);
+	clear_keybuf();
+	
 	for (i=0;i<32;i++) { mypal[i].r = (i*2); mypal[i].g = (i*2); mypal[i].b = 0; };
 	for (i=0;i<32;i++) { mypal[i+32].r = (i*2); mypal[i+32].g = 0; mypal[i+32].b = 0; };
 	for (i=0;i<32;i++) { mypal[i+64].r = 0; mypal[i+64].g = (i*2); mypal[i+64].b = 0; };
@@ -540,7 +544,7 @@ volatile int timedelay;
 	myfadein ();
 	clear_keybuf();
 	if (pos<10) i = 0; else i = 20; fpsdelay = 0; while (1) {
-		if (fpsdelay) { timedelay = fpsdelay; fpsdelay = 0;
+		if (fpsdelay) { fpsdelay = 0;
 		if (vsyncon==1) vsync ();
 #ifndef __WIN32__
 		scroll_screen (0, scroffset);
@@ -589,7 +593,8 @@ volatile int timedelay;
 				(SCRWIDTH/2)-180, (SCRHEIGHT/2)-140+(pos*26), 255, 0);
 			release_bitmap(display2);
 			}
-			while (key[KEY_ENTER]); while (key[KEY_SPACE]);
+			while (key[KEY_ENTER]);
+			while (key[KEY_SPACE]);
 		}
 	}
 #ifdef __WIN32__
@@ -904,7 +909,8 @@ int keyt[5];
 	mymousex = mouse_x; mymousey = mouse_y;
 	oldx = mymousex; oldy = mymousey; option = 0; oldoption = 0;
 	oldx2 = oldx; oldy2 = oldy; glowcount = 0; menucounter = 0;
-	while (mouse_b & 1); while (1)
+	while (mouse_b & 1);
+	while (1)
 	{
 		if (fpsdelay) { timedelay = fpsdelay; fpsdelay = 0;
 		if (vsyncon==1) vsync();
@@ -1053,7 +1059,7 @@ int keyt[5];
 /* Change brightness, sound, music volume, and game difficulty */
 int ChangeOptions (void)
 {
-int i, timedelay, option, oldoption, mymousex, mymousey, oldx, oldy, oldx2, oldy2, glowcount, menucounter;
+int i, timedelay, option, oldoption, mymousex, mymousey, oldx, oldy, oldx2, oldy2, glowcount;
 int keyu, keyd, keyl, keyr, mousefire;
 int keyt[7]; 
 
@@ -1092,8 +1098,9 @@ int keyt[7];
 	fpsdelay = 0; fpstimer = 0; fpscounter = 0; fps = 0;
 	mymousex = mouse_x; mymousey = mouse_y;
 	oldx = mymousex; oldy = mymousey; option = 0; oldoption = 0;
-	oldx2 = oldx; oldy2 = oldy; glowcount = 0; menucounter = 0;
-	while (mouse_b & 1); while (1)
+	oldx2 = oldx; oldy2 = oldy; glowcount = 0;
+	while (mouse_b & 1);
+	while (1)
 	{
 		if (fpsdelay) { timedelay = fpsdelay; fpsdelay = 0;
 		if (vsyncon==1) vsync ();
@@ -2245,7 +2252,8 @@ BITMAP * tempbm;
 	moleaframe = 0; moleprog = 0; moletimer = 1000-(level*50)-(difficulty*200);
 	if (moletimer<200) moletimer = 200;
 	moledelaydef = 7-(level/2)-difficulty;
-	if (moledelaydef<1) moledelaydef = 1; moledelay = moledelaydef;
+	if (moledelaydef<1) moledelaydef = 1;
+	moledelay = moledelaydef;
 	blockstogo = 8+(level*2);
 /* position_mouse doesn't seem to work under WinAllegro at the moment, so commented out */
 #ifndef __WIN32__
@@ -2307,7 +2315,7 @@ void GameRedraw (void)
 /* This is the biggy, the main game loop and other rubbish */
 void StartGame (void)
 {
-int timedelay, option, mymousex, mymousey, mymousedn, oldx, oldy, oldx2, oldy2;
+int timedelay, mymousex, mymousey, mymousedn, oldx, oldy, oldx2, oldy2;
 int oldmx, oldmy, oldmx2, oldmy2;
 int keyu, keyd, keyl, keyr, keyx, keyy, keyf, keyff;
 int paused, overold, overnew;
@@ -2386,7 +2394,7 @@ BITMAP *mouset1, *mouset2, *tempmt, *molet1, *molet2;
 	paused = 0; overold = 0; overnew = 0;
 	fpsdelay = 0; fpstimer = 0; fpscounter = 0; fps = 0;
 	mymousex = mouse_x; mymousey = mouse_y; mymousedn = 0;
-	oldx = mymousex; oldy = mymousey; option = 0; drawtimes = 0;
+	oldx = mymousex; oldy = mymousey; drawtimes = 0;
 	oldx2 = oldx; oldy2 = oldy;
 	oldmx = molex-6; oldmy = moley;
 	oldmx2 = oldmx; oldmy2 = oldmy;
@@ -2398,7 +2406,9 @@ BITMAP *mouset1, *mouset2, *tempmt, *molet1, *molet2;
 	blit (display2, mouset2, mymousex, mymousey, 0, 0, 12, 22);
 	blit (display2, molet2, molex-6, moley, 0, 0, 48, 48);
 	release_bitmap(display2);
-	while (mouse_b & 1); myfadein(); while (1)
+	while (mouse_b & 1);
+	myfadein();
+	while (1)
 	{
 		if (fpsdelay) { timedelay = fpsdelay; fpsdelay = 0;
 		if (vsyncon==1) vsync ();
@@ -2437,9 +2447,10 @@ BITMAP *mouset1, *mouset2, *tempmt, *molet1, *molet2;
 			{
 				if (puttimer) {
 #ifdef SOUNDON
-	if (sfxvol)
-					SEALPlaySnd (mydata[CHING1].dat, sfxvol, 128, 1000, FALSE);
-					mymousedn = 1; keyf = 0;
+					if (sfxvol)
+						SEALPlaySnd (mydata[CHING1].dat, sfxvol, 128, 1000, FALSE);
+					mymousedn = 1;
+					keyf = 0;
 #endif
 				} else {
 				mymousedn = 1; keyf = 0;
@@ -2467,7 +2478,8 @@ BITMAP *mouset1, *mouset2, *tempmt, *molet1, *molet2;
 			moleaframe++; if (moleaframe==(4<<3)) moleaframe = 0;
 			MoveMole (); UpdateDigbm ();
 			if (nextshunt) nextshunt--;
-			if (messagedur) messagedur--; { if (!messagedur) topmessage[0] = 0; }
+			if (messagedur) messagedur--;
+			if (!messagedur) topmessage[0] = 0;
 			timedelay--;
 			if (endgame) break;
 		}
@@ -2601,6 +2613,7 @@ int choice;
 	if (fliptype == 4) { choice = GFX_AUTODETECT_WINDOWED; fliptype = 0; }
 	else { choice = GFX_AUTODETECT; }
 #ifndef __WIN32__
+	(void) choice;
 	if (set_gfx_mode (GFX_AUTODETECT_WINDOWED, SCRWIDTH, SCRHEIGHT, 0, SCRHEIGHT*2)<0)
 		{ allegro_exit (); printf ("Couldn't open %d*%d*%d screen\n",
 			SCRWIDTH, SCRHEIGHT, SCRDEPTH); return -1; }
